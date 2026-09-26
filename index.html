@@ -2378,6 +2378,8 @@ async function startTelegramBinding() {
     const btn = document.getElementById('tg-bind-btn');
     if (btn) btn.disabled = true;
     localStorage.removeItem('hrry_telegram_pending_token');
+    localStorage.removeItem('hrry_telegram_bind_token');
+    telegramBindToken = null;
     setTGState('loading');
     document.getElementById('tg-loading-title').innerHTML='Connecting Telegram<span class="tg-dots"><span></span><span></span><span></span></span>';
     document.getElementById('tg-loading-sub').innerText='Secure binding session बनाई जा रही है';
@@ -2388,8 +2390,7 @@ async function startTelegramBinding() {
         });
         const data = await res.json();
         if (!data.success) throw new Error(data.error || 'Unable to start binding');
-        telegramBindToken = data.token;
-        localStorage.setItem('hrry_telegram_pending_token', telegramBindToken);
+        saveTelegramBindToken(data.token);
         openTelegramBot(data.telegramUrl);
         document.getElementById('tg-loading-title').innerHTML='Waiting for Telegram<span class="tg-dots"><span></span><span></span><span></span></span>';
         document.getElementById('tg-loading-sub').innerText='Telegram में Start दबाते ही binding automatically complete होगी';
@@ -2441,44 +2442,134 @@ function beginTelegramPolling() {
     },1500);
 }
 
+function getSavedTelegramBindToken() {
+    return telegramBindToken ||
+        localStorage.getItem('hrry_telegram_bind_token') ||
+        localStorage.getItem('hrry_telegram_pending_token') ||
+        null;
+}
+
+function saveTelegramBindToken(token) {
+    if (!token) return;
+    telegramBindToken = token;
+    // IMPORTANT: this is the persistent binding token. Do NOT delete it
+    // after login. It is used again on every app open to live-check the
+    // Telegram channel membership, including when the user later leaves.
+    localStorage.setItem('hrry_telegram_bind_token', token);
+    localStorage.setItem('hrry_telegram_pending_token', token);
+}
+
+async function liveCheckTelegramAccess() {
+    const bindToken = getSavedTelegramBindToken();
+    const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
+
+    // Prefer the original binding token because /bind/check is the endpoint
+    // that performs the live channel-membership check. The session endpoint
+    // may only validate the saved session and must not be allowed to turn an
+    // old subscription into a false VERIFIED state.
+    if (bindToken) {
+        try {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({token:bindToken}),
+                cache:'no-store'
+            });
+            const data = await res.json();
+
+            if (data.telegramData) {
+                localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
+                showTelegramProfile(data.telegramData);
+            }
+
+            // A real response from /check with subscribed=true/false is
+            // authoritative for channel membership.
+            if (data.success && typeof data.subscribed === 'boolean') {
+                return data;
+            }
+
+            // If the binding token is explicitly invalid/expired, do NOT
+            // fall back to the old session's subscribed flag. That could
+            // incorrectly allow a user who has already left the channel.
+            if (data.status === 'expired' || data.status === 'not_found' || data.error) {
+                return { ...data, bindingTokenInvalid:true };
+            }
+        } catch(e) {
+            console.warn('Live bind-token check failed:', e);
+        }
+    }
+
+    if (session) {
+        try {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({sessionToken:session}),
+                cache:'no-store'
+            });
+            const data = await res.json();
+            if (data.telegramData) {
+                localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
+                showTelegramProfile(data.telegramData);
+            }
+            return data;
+        } catch(e) {
+            console.warn('Saved session check failed:', e);
+        }
+    }
+
+    return { success:false, noConnection:true };
+}
+
 function beginAutoSubscriptionVerification() {
     clearInterval(telegramPollTimer);
     showTGAccessChecking();
-    telegramPollTimer=setInterval(async()=>{
-        const token=telegramBindToken || localStorage.getItem('hrry_telegram_pending_token');
-        const session=localStorage.getItem(TELEGRAM_SESSION_KEY);
-        if(!token && !session) return;
-        try{
-            let endpoint, body;
-            if(session){ endpoint=`${TELEGRAM_BIND_BACKEND}/api/bind/session`; body={sessionToken:session}; }
-            else { endpoint=`${TELEGRAM_BIND_BACKEND}/api/bind/check`; body={token}; }
-            const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-            const data=await res.json();
-            if(data.telegramData){
-                localStorage.setItem('hrry_telegram_bound_profile',JSON.stringify(data.telegramData));
-                showTelegramProfile(data.telegramData);
-            }
-            if(data.success && data.subscribed){
+
+    const runCheck = async () => {
+        const token = getSavedTelegramBindToken();
+        const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
+        if (!token && !session) return;
+
+        try {
+            const data = await liveCheckTelegramAccess();
+
+            if (data.noConnection) return;
+
+            if (data.success && data.subscribed === true) {
                 clearInterval(telegramPollTimer);
-                await finishTelegramLogin(data.telegramData,data.sessionToken || session);
+                showAccessVerified(data.telegramData);
+                const sessionToken = data.sessionToken || localStorage.getItem(TELEGRAM_SESSION_KEY);
+                if (sessionToken) {
+                    await finishTelegramLogin(data.telegramData, sessionToken);
+                }
                 return;
             }
-            if(data.success && data.subscribed===false){
+
+            if (data.success && data.subscribed === false) {
+                // IMPORTANT: this state must win over any old saved session.
+                // The user may have unsubscribed after a previous login.
                 showJoinRequired(data.telegramData);
             }
-        }catch(e){console.warn('Telegram access polling:',e)}
-    },1800);
+        } catch(e) {
+            console.warn('Telegram access polling:', e);
+        }
+    };
+
+    runCheck();
+    telegramPollTimer = setInterval(runCheck, 1800);
 }
 
 function joinChannelAndVerify(){
     document.getElementById('tg-join-popup').classList.remove('show');
     showTGAccessChecking();
-    window.open(TELEGRAM_CHANNEL_URL,'_blank');
+
+    // Keep polling active while Telegram is open. As soon as the backend
+    // reports membership=true, the gate advances automatically.
     beginAutoSubscriptionVerification();
+    window.open(TELEGRAM_CHANNEL_URL,'_blank');
 }
 
 async function checkTelegramSubscription(){
-    // Kept for backward compatibility with any old onclick/reference.
     beginAutoSubscriptionVerification();
 }
 
@@ -2495,10 +2586,15 @@ async function finishTelegramLogin(telegramData, sessionToken) {
     localStorage.setItem('harry_user_account',JSON.stringify(currentUser));
     localStorage.setItem(TELEGRAM_SESSION_KEY,sessionToken);
     localStorage.setItem('hrry_telegram_bound_profile',JSON.stringify(telegramData));
-    localStorage.removeItem('hrry_telegram_pending_token');
+
+    // NEVER discard the persistent bind token. It is needed to detect a
+    // later channel unsubscribe on the next app open.
+    const permanentBindToken = getSavedTelegramBindToken();
+    if (permanentBindToken) saveTelegramBindToken(permanentBindToken);
+
     await restoreTelegramAccountData(telegramProfile.telegramId);
     await saveTelegramAccountToCloud({telegramId:telegramProfile.telegramId,username:telegramProfile.username,name:telegramProfile.name,photoUrl:telegramProfile.photoUrl});
-    telegramBindToken=null;
+    telegramBindToken=permanentBindToken || telegramBindToken;
     clearInterval(telegramPollTimer);
     showAccessVerified(telegramData);
     await showTelegramVerified();
@@ -2522,7 +2618,7 @@ function showTelegramGateForSubscription(telegramData,message){
     }
     clearInterval(telegramPollTimer);
     clearInterval(telegramSessionMonitorTimer);
-    telegramBindToken=localStorage.getItem('hrry_telegram_pending_token') || null;
+    telegramBindToken=getSavedTelegramBindToken();
     showJoinRequired(telegramData);
     switchScreen('telegram-gate-screen');
 }
@@ -2531,14 +2627,19 @@ function startTelegramSessionMonitor(){
     clearInterval(telegramSessionMonitorTimer);
     telegramSessionMonitorTimer=setInterval(async()=>{
         const session=localStorage.getItem(TELEGRAM_SESSION_KEY);
-        if(!session) return;
+        const bindToken=getSavedTelegramBindToken();
+        if(!session && !bindToken) return;
         try{
-            const res=await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionToken:session})});
-            const data=await res.json();
-            if(!data.success || !data.subscribed){
-                showTelegramGateForSubscription(data.telegramData || currentUser,'Channel access verify नहीं हुई।');
+            // Always use the live membership check first. This catches the
+            // case where a user was verified earlier and later unsubscribed.
+            const data=await liveCheckTelegramAccess();
+            if(data.noConnection) return;
+
+            if(!data.success || data.subscribed !== true){
+                showTelegramGateForSubscription(data.telegramData || currentUser,'आपका Telegram bind है, लेकिन channel join नहीं मिला।');
                 return;
             }
+
             if(data.telegramData){
                 currentUser={...currentUser,telegramId:data.telegramData.telegramId||currentUser.telegramId,username:data.telegramData.username||currentUser.username,name:data.telegramData.firstName||currentUser.name,photoUrl:data.telegramData.photoUrl||currentUser.photoUrl};
                 localStorage.setItem('harry_user_account',JSON.stringify(currentUser));
@@ -2552,46 +2653,74 @@ function startTelegramSessionMonitor(){
 async function restoreTelegramSession(){
     const session=localStorage.getItem(TELEGRAM_SESSION_KEY);
     const savedProfile=localStorage.getItem('hrry_telegram_bound_profile');
-    if(!session){
+    const savedBindToken=localStorage.getItem('hrry_telegram_bind_token') || localStorage.getItem('hrry_telegram_pending_token');
+
+    if(savedBindToken) telegramBindToken=savedBindToken;
+
+    // No saved binding at all = first-time user.
+    if(!session && !savedBindToken){
         setTGState('bind');
-        const pending=localStorage.getItem('hrry_telegram_pending_token');
-        if(pending){ telegramBindToken=pending; setTGState('loading'); beginTelegramPolling(); }
         return;
     }
-    // Every new app open starts with an explicit binding check, never the old bind UI.
+
+    // Every new app open starts with a live binding + channel check.
+    // The old Bind UI is never shown for an already-bound device.
     switchScreen('telegram-gate-screen');
     setTGState('loading');
     document.getElementById('tg-loading-title').innerHTML='Checking binding<span class="tg-dots"><span></span><span></span><span></span></span>';
-    document.getElementById('tg-loading-sub').innerText='Saved Telegram binding verify की जा रही है';
+    document.getElementById('tg-loading-sub').innerText='Saved Telegram binding और channel access verify की जा रही है';
     if(savedProfile){try{showTelegramProfile(JSON.parse(savedProfile));}catch(_) {}}
+
     try{
-        const res=await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionToken:session})});
-        const data=await res.json();
-        if(!data.success){
+        const data=await liveCheckTelegramAccess();
+
+        if(data.noConnection){
+            setTGState('loading');
+            document.getElementById('tg-loading-title').innerHTML='Checking binding<span class="tg-dots"><span></span><span></span><span></span></span>';
+            document.getElementById('tg-loading-sub').innerText='Connection मिलते ही saved Telegram binding फिर से check होगी';
+            beginAutoSubscriptionVerification();
+            return;
+        }
+
+        if(data.bindingTokenInvalid){
+            // The device still remembers a Telegram profile, but the old
+            // live binding token is no longer usable. Never trust a stale
+            // session as proof of current channel membership.
             localStorage.removeItem(TELEGRAM_SESSION_KEY);
             setTGState('bind');
             const b=document.getElementById('tg-bind-btn'); if(b)b.disabled=false;
-            setTelegramStatus('Saved Telegram binding valid नहीं मिली। फिर से Bind करना होगा।','error');
+            setTelegramStatus('Telegram binding की live verification expire हो गई। कृपया Telegram को फिर से Bind करें।','error');
             return;
         }
-        if(data.telegramData) localStorage.setItem('hrry_telegram_bound_profile',JSON.stringify(data.telegramData));
-        if(data.subscribed){
-            await finishTelegramLogin(data.telegramData,session);
+
+        if(data.success && data.subscribed === true){
+            const sessionToken=data.sessionToken || session;
+            if(sessionToken){
+                await finishTelegramLogin(data.telegramData || (savedProfile?JSON.parse(savedProfile):null),sessionToken);
+            }
             return;
         }
-        telegramBindToken=localStorage.getItem('hrry_telegram_pending_token') || null;
-        // Existing session is already the permanent binding; use it for automatic channel polling.
-        showTGAccessChecking(data.telegramData || (savedProfile?JSON.parse(savedProfile):null));
-        beginAutoSubscriptionVerification();
+
+        if(data.success && data.subscribed === false){
+            // Binding is valid, but the current live channel state is NOT
+            // joined. Show the Join UI instead of trusting the old session.
+            showJoinRequired(data.telegramData || (savedProfile?JSON.parse(savedProfile):null));
+            return;
+        }
+
+        // Saved binding/session cannot be verified. Only then ask for a new bind.
+        localStorage.removeItem(TELEGRAM_SESSION_KEY);
+        setTGState('bind');
+        const b=document.getElementById('tg-bind-btn'); if(b)b.disabled=false;
+        setTelegramStatus('Saved Telegram binding verify नहीं हो पाई। फिर से Bind Telegram करें।','error');
     }catch(e){
         console.error(e);
         setTGState('loading');
         document.getElementById('tg-loading-title').innerHTML='Checking binding<span class="tg-dots"><span></span><span></span><span></span></span>';
         document.getElementById('tg-loading-sub').innerText='Connection मिलते ही saved binding दोबारा check होगी';
-        // Do not destroy a saved binding just because network is temporarily unavailable.
+        beginAutoSubscriptionVerification();
     }
 }
-
 
 async function fetchFromDB(path) {
 
