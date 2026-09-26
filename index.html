@@ -1207,6 +1207,45 @@
 .tg-check-ring{position:relative;animation:tgCheckPulse 1s cubic-bezier(.16,1,.3,1) both, tgRingGlow 1.8s ease-in-out infinite .6s!important}
 @keyframes tgRingGlow{50%{box-shadow:0 0 45px rgba(16,185,129,.48),0 0 80px rgba(16,185,129,.12)}}
 
+
+/* RETURNING USER / SUBSCRIPTION-ONLY EXPERIENCE */
+.tg-returning #tg-live-rail,
+.tg-returning #tg-step-bind,
+.tg-returning #tg-step-sub,
+.tg-returning #tg-step-check{display:none!important}
+.tg-returning .telegram-gate-title{animation:tgTextIn .5s cubic-bezier(.16,1,.3,1) both}
+.tg-returning .telegram-gate-sub{animation:tgTextIn .6s .05s cubic-bezier(.16,1,.3,1) both}
+@keyframes tgTextIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tg-device-search{display:none;margin:14px 0 16px;padding:18px 14px 15px;border-radius:20px;background:linear-gradient(145deg,rgba(19,31,51,.82),rgba(8,14,27,.9));border:1px solid rgba(82,185,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.2)}
+.tg-returning .tg-device-search{display:block;animation:tgSearchCardIn .65s cubic-bezier(.16,1,.3,1) both}
+@keyframes tgSearchCardIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.tg-radar{width:86px;height:86px;margin:0 auto 13px;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle,rgba(38,169,255,.18) 0 7%,rgba(38,169,255,.06) 8% 42%,transparent 43%),repeating-radial-gradient(circle,rgba(38,169,255,.16) 0 1px,transparent 1px 21px);border:1px solid rgba(87,196,255,.25);box-shadow:0 0 35px rgba(38,169,255,.12)}
+.tg-radar::before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px solid rgba(125,211,252,.22)}
+.tg-radar::after{content:"";position:absolute;left:50%;top:50%;width:50%;height:2px;transform-origin:left center;background:linear-gradient(90deg,rgba(125,211,252,.9),transparent);box-shadow:0 0 12px rgba(56,189,248,.7);animation:tgRadarSweep 1.7s linear infinite}
+@keyframes tgRadarSweep{to{transform:rotate(360deg)}}
+.tg-radar-core{width:15px;height:15px;border-radius:50%;background:#7dd3fc;box-shadow:0 0 22px #38bdf8;animation:tgRadarPulse 1.1s ease-in-out infinite}
+@keyframes tgRadarPulse{50%{transform:scale(1.45);box-shadow:0 0 32px #38bdf8}}
+.tg-search-title{font-size:15px;font-weight:900;color:#fff}.tg-search-sub{margin-top:5px;font-size:10px;line-height:1.55;color:rgba(255,255,255,.55)}
+.tg-search-progress{height:5px;margin-top:13px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}.tg-search-progress span{display:block;width:35%;height:100%;border-radius:99px;background:linear-gradient(90deg,#229ed9,#22d3ee,#6366f1);box-shadow:0 0 14px rgba(34,211,238,.5);animation:tgSearchProgress 1.25s ease-in-out infinite}
+@keyframes tgSearchProgress{0%{transform:translateX(-130%)}100%{transform:translateX(310%)}}
+.tg-found-badge{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:6px 10px;border-radius:999px;font-size:9px;font-weight:900;color:#6ee7b7;background:rgba(16,185,129,.1);border:1px solid rgba(52,211,153,.22);opacity:0;transform:translateY(5px)}
+.tg-found-badge.show{animation:tgFound .45s cubic-bezier(.16,1,.3,1) forwards}.tg-found-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
+@keyframes tgFound{to{opacity:1;transform:none}}
+.tg-subscription-hero{display:none;text-align:left;margin:14px 0 12px;padding:17px;border-radius:20px;background:linear-gradient(145deg,rgba(239,68,68,.11),rgba(124,58,237,.08));border:1px solid rgba(244,114,182,.16);box-shadow:0 18px 45px rgba(0,0,0,.18)}
+.tg-subscription-hero.show{display:block;animation:tgSubscriptionIn .55s cubic-bezier(.16,1,.3,1) both}
+@keyframes tgSubscriptionIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.tg-premium-line{display:flex;align-items:center;justify-content:space-between;gap:10px}.tg-premium-label{font-size:9px;letter-spacing:.8px;font-weight:900;color:#fda4af;text-transform:uppercase}.tg-premium-lock{font-size:10px;color:rgba(255,255,255,.42)}
+.tg-subscription-hero h3{margin:8px 0 5px;font-size:18px;color:#fff}.tg-subscription-hero p{margin:0;font-size:10px;line-height:1.55;color:rgba(255,255,255,.58)}
+.tg-subscription-points{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.tg-subscription-point{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.045);font-size:9px;color:rgba(255,255,255,.66)}
+.tg-returning .tg-profile{margin-top:12px}
+.tg-returning .tg-subscribe{display:block!important}
+.tg-returning .tg-check{display:none!important}
+.tg-returning .tg-bind{display:none!important}
+.tg-returning.subscription-found .tg-device-search{display:none}
+.tg-returning.subscription-found .tg-subscription-hero{display:block}
+.tg-returning.subscription-found .telegram-gate-logo{animation:tgLogoFloat 2.8s ease-in-out infinite, tgFoundLogo .65s cubic-bezier(.16,1,.3,1) both}
+@keyframes tgFoundLogo{0%{opacity:.4;transform:scale(.8) rotate(-8deg)}100%{opacity:1;transform:scale(1)}}
+
 @media (prefers-reduced-motion:reduce){.telegram-gate-box::before,.tg-live-step.active .tg-live-dot,.tg-btn::before,.tg-orbit::before,.tg-orbit::after,.tg-orbit-core,.tg-orbit-dot,.tg-action-track span,.tg-action-dots i,.tg-check-ring,.tg-verify-card::before{animation:none!important}.tg-step,.tg-profile,.tg-action-card{transition:none!important}}
 </style>
 </head>
@@ -1221,7 +1260,25 @@
         <div class="telegram-gate-box glass-card">
             <div class="telegram-gate-logo">✈️</div>
             <div class="telegram-gate-title">Telegram से Bind करें</div>
-            <div class="telegram-gate-sub">hrry.test इस्तेमाल करने से पहले अपना Telegram account bind करें और हमारा channel subscribe करें।</div>
+            <div class="telegram-gate-sub" id="tg-gate-subtitle">hrry.test इस्तेमाल करने से पहले अपना Telegram account bind करें और हमारा channel subscribe करें।</div>
+
+            <div class="tg-device-search" id="tg-device-search">
+                <div class="tg-radar"><div class="tg-radar-core"></div></div>
+                <div class="tg-search-title">आपके डिवाइस का Telegram Bind खोज रहे हैं…</div>
+                <div class="tg-search-sub" id="tg-device-search-sub">पिछली बार इसी device पर कौन-सा Telegram account bind हुआ था, उसे सुरक्षित रूप से ढूँढ रहे हैं।</div>
+                <div class="tg-search-progress"><span></span></div>
+                <div class="tg-found-badge" id="tg-found-badge">Telegram account मिला</div>
+            </div>
+
+            <div class="tg-subscription-hero" id="tg-subscription-hero">
+                <div class="tg-premium-line"><span class="tg-premium-label">🔒 Access Required</span><span class="tg-premium-lock">Telegram verified</span></div>
+                <h3>Channel Subscribe करें</h3>
+                <p>आपका Telegram account पहले से bind है। अब app access के लिए हमारे channel की subscription जरूरी है।</p>
+                <div class="tg-subscription-points">
+                    <div class="tg-subscription-point">✓ Account पहले से bind</div>
+                    <div class="tg-subscription-point">✓ Subscription auto-check</div>
+                </div>
+            </div>
 
             <div class="tg-live-rail" id="tg-live-rail" aria-label="Telegram setup progress">
                 <div class="tg-live-step active" data-tg-step="1"><span class="tg-live-dot">1</span><span>Bind</span></div>
@@ -2499,81 +2556,104 @@ function showSubscriptionStep(data) {
     document.getElementById('tg-check-btn').style.display = 'none';
     document.getElementById('tg-bind-btn').style.display = 'none';
 
+    const gate = document.getElementById('telegram-gate-screen');
+    gate.classList.remove('tg-returning');
+    gate.classList.add('subscription-found');
+    const hero = document.getElementById('tg-subscription-hero');
+    if (hero) hero.classList.add('show');
+    const rail = document.getElementById('tg-live-rail');
+    if (rail) rail.style.display = '';
+
     setTelegramStatus(
-        'Channel Subscribe करें। Subscribe होते ही verification अपने-आप शुरू हो जाएगा…',
-        'info'
+        '🔒 Telegram account मिल गया। लेकिन channel subscription नहीं मिली — पहले Subscribe करें।',
+        'error'
     );
 
     beginAutoSubscriptionVerification();
+}
+
+async function checkSubscriptionFromSession() {
+    const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
+    if (!session) return false;
+    try {
+        const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({sessionToken:session})
+        });
+        const data = await res.json();
+        if (data.telegramData) {
+            showTelegramProfile(data.telegramData);
+            localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
+        }
+        if (data.success && data.subscribed) {
+            clearInterval(telegramPollTimer);
+            await finishTelegramLogin(data.telegramData || JSON.parse(localStorage.getItem('hrry_telegram_bound_profile') || 'null'), session);
+            return true;
+        }
+        if (data.telegramData) showSubscriptionStep(data.telegramData);
+        return false;
+    } catch(e) {
+        console.warn('Telegram session subscription check:', e);
+        return false;
+    }
 }
 
 function beginAutoSubscriptionVerification() {
     clearInterval(telegramPollTimer);
 
     telegramPollTimer = setInterval(async () => {
-        if (!telegramBindToken) return;
+        if (telegramBindToken) {
+            try {
+                const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({token:telegramBindToken})
+                });
+                const data = await res.json();
+                if (data.success && data.subscribed) {
+                    clearInterval(telegramPollTimer);
+                    await finishTelegramLogin(data.telegramData, data.sessionToken);
+                    return;
+                }
+                setTelegramStatus('📡 Channel subscription check चल रहा है… Subscribe करते ही access खुल जाएगा।','info');
+            } catch(e) { console.warn('Telegram subscription polling:', e); }
+            return;
+        }
 
-        try {
-            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({token:telegramBindToken})
-            });
-
-            const data = await res.json();
-
-            if (!data.success) return;
-
-            if (data.subscribed) {
-                clearInterval(telegramPollTimer);
-                await finishTelegramLogin(data.telegramData, data.sessionToken);
-                return;
-            }
-
-            setTelegramStatus(
-                '📡 Subscription check चल रहा है… Subscribe करने के बाद यह अपने-आप verify होगा।',
-                'info'
-            );
-        } catch(e) {
-            console.warn('Telegram subscription polling:', e);
+        // Returning user: use the permanent session token, not the old one-time bind token.
+        const done = await checkSubscriptionFromSession();
+        if (!done) {
+            setTelegramStatus('📡 Subscription check चल रहा है… Channel Subscribe करके वापस आएँ।','info');
         }
     }, 2500);
 }
 
 async function checkTelegramSubscription() {
-    // Backward-compatible manual function; normal flow अब automatic है.
-    if (!telegramBindToken) {
-        telegramBindToken = localStorage.getItem('hrry_telegram_pending_token');
-    }
-    if (!telegramBindToken) {
-        setTelegramStatus('पहले Telegram bind करें।', 'error');
-        return;
-    }
-
-    setTelegramStatus('Subscription verify हो रहा है…', 'info');
-
+    const btn = document.getElementById('tg-check-btn');
+    if (btn) btn.disabled = true;
+    setTelegramStatus('Subscription verify हो रही है…','info');
     try {
-        const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({token:telegramBindToken})
-        });
-
-        const data = await res.json();
-
-        if (!data.success) throw new Error(data.error || 'Verification failed');
-
-        if (!data.subscribed) {
-            setTelegramStatus('❌ अभी channel subscription नहीं मिली। पहले channel Join करें।', 'error');
+        if (telegramBindToken) {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({token:telegramBindToken})
+            });
+            const data = await res.json();
+            if (data.success && data.subscribed) {
+                clearInterval(telegramPollTimer);
+                await finishTelegramLogin(data.telegramData, data.sessionToken);
+                return;
+            }
+            setTelegramStatus('❌ अभी channel subscription नहीं मिली। पहले Subscribe करें।','error');
             beginAutoSubscriptionVerification();
             return;
         }
-
-        clearInterval(telegramPollTimer);
-        await finishTelegramLogin(data.telegramData, data.sessionToken);
+        const done = await checkSubscriptionFromSession();
+        if (!done) setTelegramStatus('❌ अभी channel subscription नहीं मिली। पहले Subscribe करें।','error');
     } catch(e) {
         console.error(e);
-        setTelegramStatus('❌ Subscription verify नहीं हो पाया। फिर से कोशिश करें।', 'error');
+        setTelegramStatus('❌ Subscription verify नहीं हो पाया। फिर से कोशिश करें।','error');
+    } finally {
+        if (btn) btn.disabled = false;
     }
 }
 
@@ -2640,16 +2720,77 @@ function showTelegramGateForSubscription(telegramData, message) {
 
     clearInterval(telegramPollTimer);
     clearInterval(telegramSessionMonitorTimer);
-    telegramBindToken = localStorage.getItem('hrry_telegram_pending_token') || null;
+
+    const gate = document.getElementById('telegram-gate-screen');
+    gate.classList.add('tg-returning','subscription-found');
+    gate.classList.remove('searching-device');
 
     document.getElementById('tg-bind-btn').style.display = 'none';
     document.getElementById('tg-subscribe-btn').style.display = 'block';
-    document.getElementById('tg-check-btn').style.display = 'block';
+    document.getElementById('tg-check-btn').style.display = 'none';
+
+    const rail = document.getElementById('tg-live-rail');
+    if (rail) rail.style.display = 'none';
+    const hero = document.getElementById('tg-subscription-hero');
+    if (hero) hero.classList.add('show');
+    const search = document.getElementById('tg-device-search');
+    if (search) search.style.display = 'none';
+
+    const title = document.querySelector('.telegram-gate-title');
+    const subtitle = document.getElementById('tg-gate-subtitle');
+    if (title) title.textContent = telegramData ? 'Telegram Account मिल गया' : 'Telegram Subscription Required';
+    if (subtitle) subtitle.textContent = telegramData
+        ? 'आपका पहले से bind किया हुआ Telegram account मिल गया है। अब सिर्फ channel subscription check करनी है।'
+        : 'पहले से bind account की subscription verify करनी है।';
 
     setTelegramStatus(
-        message || 'आप अभी channel से subscribed नहीं हैं। पहले Subscribe करें।',
+        message || '🔒 आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई। पहले Subscribe करें।',
         'error'
     );
+    switchScreen('telegram-gate-screen');
+    if (telegramData) beginAutoSubscriptionVerification();
+}
+
+function showDeviceSearchState() {
+    const gate = document.getElementById('telegram-gate-screen');
+    gate.classList.add('tg-returning','searching-device');
+    gate.classList.remove('subscription-found');
+    switchScreen('telegram-gate-screen');
+
+    const title = document.querySelector('.telegram-gate-title');
+    const subtitle = document.getElementById('tg-gate-subtitle');
+    if (title) title.textContent = 'आपका Telegram Account खोज रहे हैं…';
+    if (subtitle) subtitle.textContent = 'इस device पर पहले से bind किया गया Telegram account ढूँढा जा रहा है।';
+
+    document.getElementById('tg-bind-btn').style.display = 'none';
+    document.getElementById('tg-subscribe-btn').style.display = 'none';
+    document.getElementById('tg-check-btn').style.display = 'none';
+    document.getElementById('tg-profile').style.display = 'none';
+    const hero = document.getElementById('tg-subscription-hero');
+    if (hero) hero.classList.remove('show');
+    const rail = document.getElementById('tg-live-rail');
+    if (rail) rail.style.display = 'none';
+    const badge = document.getElementById('tg-found-badge');
+    if (badge) badge.classList.remove('show');
+
+    setTelegramStatus('🔎 देख रहे हैं कि इस device पर कौन-सा Telegram account पहले bind हुआ था…','info');
+}
+
+function showFreshTelegramBindState() {
+    const gate = document.getElementById('telegram-gate-screen');
+    gate.classList.remove('tg-returning','searching-device','subscription-found');
+    const title = document.querySelector('.telegram-gate-title');
+    const subtitle = document.getElementById('tg-gate-subtitle');
+    if (title) title.textContent = 'Telegram से Bind करें';
+    if (subtitle) subtitle.textContent = 'hrry.test इस्तेमाल करने से पहले अपना Telegram account bind करें और हमारा channel subscribe करें।';
+    document.getElementById('tg-bind-btn').style.display = 'block';
+    document.getElementById('tg-subscribe-btn').style.display = 'none';
+    document.getElementById('tg-check-btn').style.display = 'none';
+    document.getElementById('tg-profile').style.display = 'none';
+    const hero = document.getElementById('tg-subscription-hero');
+    if (hero) hero.classList.remove('show');
+    const rail = document.getElementById('tg-live-rail');
+    if (rail) rail.style.display = '';
     switchScreen('telegram-gate-screen');
 }
 
@@ -2662,23 +2803,22 @@ function startTelegramSessionMonitor() {
 
         try {
             const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
+                method:'POST', headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({sessionToken:session})
             });
-
             const data = await res.json();
 
+            // IMPORTANT: keep the session when subscription is missing.
+            // The device must still remember which Telegram account was bound.
             if (!data.success || !data.subscribed) {
-                localStorage.removeItem(TELEGRAM_SESSION_KEY);
                 showTelegramGateForSubscription(
                     data.telegramData || currentUser,
-                    '⚠️ Channel subscription हट गई है। दोबारा Subscribe करें।'
+                    '⚠️ आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई।'
                 );
                 return;
             }
 
-                    if (data.telegramData) {
+            if (data.telegramData) {
                 currentUser = {
                     ...currentUser,
                     telegramId: data.telegramData.telegramId || currentUser.telegramId,
@@ -2687,6 +2827,7 @@ function startTelegramSessionMonitor() {
                     photoUrl: data.telegramData.photoUrl || currentUser.photoUrl
                 };
                 localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
+                localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
                 saveTelegramAccountToCloud({ sessionActive: true });
             }
         } catch(e) {
@@ -2697,30 +2838,107 @@ function startTelegramSessionMonitor() {
 
 async function restoreTelegramSession() {
     const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
-    if (!session) {
-        switchScreen('telegram-gate-screen');
+    const pendingToken = localStorage.getItem('hrry_telegram_pending_token');
+
+    // If binding was completed but subscription was not yet completed,
+    // the one-time pending bind token is enough to recover the Telegram identity.
+    if (!session && pendingToken) {
+        showDeviceSearchState();
+        clearInterval(telegramPollTimer);
+        telegramBindToken = pendingToken;
+        try {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/status`, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({token:pendingToken})
+            });
+            const data = await res.json();
+
+            if (data.telegramData) {
+                localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
+                const badge = document.getElementById('tg-found-badge');
+                if (badge) badge.classList.add('show');
+            }
+
+            if (data.status === 'completed' && data.sessionToken) {
+                await finishTelegramLogin(data.telegramData, data.sessionToken);
+                return;
+            }
+
+            if (data.telegramData || data.status === 'bound') {
+                await new Promise(r=>setTimeout(r,420));
+                showTelegramGateForSubscription(
+                    data.telegramData,
+                    '🔒 Telegram account मिल गया, लेकिन channel subscription अभी बाकी है।'
+                );
+                return;
+            }
+
+            const saved = localStorage.getItem('hrry_telegram_bound_profile');
+            if (saved) {
+                await new Promise(r=>setTimeout(r,420));
+                showTelegramGateForSubscription(
+                    JSON.parse(saved),
+                    '🔒 आपका पहले से bind किया हुआ Telegram account मिल गया। पहले channel Subscribe करें।'
+                );
+                return;
+            }
+        } catch(e) {
+            console.warn('Pending Telegram binding restore:', e);
+        }
+
+        // No recoverable binding was found; start the fresh flow.
+        telegramBindToken = null;
+        localStorage.removeItem('hrry_telegram_pending_token');
+        showFreshTelegramBindState();
         return;
     }
-    setTelegramStatus('Telegram account verify हो रहा है…', 'info');
+
+    if (!session) {
+        showFreshTelegramBindState();
+        return;
+    }
+
+    // Returning user: never show the first-time Bind screen again.
+    showDeviceSearchState();
+    clearInterval(telegramPollTimer);
+
     try {
         const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
             method:'POST', headers:{'Content-Type':'application/json'},
             body:JSON.stringify({sessionToken:session})
         });
         const data = await res.json();
-        if (!data.success || !data.subscribed) {
-            localStorage.removeItem(TELEGRAM_SESSION_KEY);
+
+        if (data.telegramData) {
+            localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
+        }
+
+        if (data.success && data.subscribed) {
+            const badge = document.getElementById('tg-found-badge');
+            if (badge) badge.classList.add('show');
+            await new Promise(r=>setTimeout(r,420));
+            await finishTelegramLogin(data.telegramData, session);
+            return;
+        }
+
+        if (data.telegramData) {
+            const badge = document.getElementById('tg-found-badge');
+            if (badge) badge.classList.add('show');
+            await new Promise(r=>setTimeout(r,420));
             showTelegramGateForSubscription(
                 data.telegramData,
-                'आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई।'
+                '⚠️ Telegram account मिल गया, लेकिन channel subscription नहीं मिली।'
             );
             return;
         }
-        await finishTelegramLogin(data.telegramData, session);
+
+        // Session is no longer recognized by the backend.
+        localStorage.removeItem(TELEGRAM_SESSION_KEY);
+        showFreshTelegramBindState();
+        setTelegramStatus('यह Telegram binding session अब उपलब्ध नहीं है। फिर से Bind Telegram करें।','error');
     } catch(e) {
         console.error(e);
-        switchScreen('telegram-gate-screen');
-        setTelegramStatus('Server verify नहीं हो पाया। Internet check करके फिर कोशिश करें।', 'error');
+        setTelegramStatus('Server से Telegram binding check नहीं हो पाई। फिर से कोशिश करें।','error');
     }
 }
 
