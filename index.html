@@ -1025,8 +1025,11 @@
         }
     
 /* ================= TELEGRAM ACCESS GATE ================= */
-.telegram-gate-box{width:min(430px,92%);padding:28px 22px;text-align:center}
-.telegram-gate-logo{width:72px;height:72px;border-radius:24px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(38,169,255,.25),rgba(99,102,241,.25));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 35px rgba(38,169,255,.18)}
+.telegram-gate-box{width:min(430px,92%);padding:28px 22px;text-align:center;position:relative;isolation:isolate;animation:tgPopupIn .55s cubic-bezier(.16,1,.3,1) both}
+#telegram-gate-screen{justify-content:center;align-items:center;background:rgba(3,6,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.telegram-gate-logo{width:72px;height:72px;border-radius:24px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(38,169,255,.25),rgba(99,102,241,.25));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 35px rgba(38,169,255,.18);animation:tgLogoFloat 2.8s ease-in-out infinite}
+@keyframes tgPopupIn{0%{opacity:0;transform:translateY(28px) scale(.94);filter:blur(8px)}70%{opacity:1;transform:translateY(-3px) scale(1.01);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes tgLogoFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(-2deg)}}
 .telegram-gate-title{font-size:22px;font-weight:900;color:#fff}
 .telegram-gate-sub{font-size:12px;line-height:1.55;color:var(--text-muted);margin:8px 0 18px}
 .tg-profile{display:none;align-items:center;gap:12px;text-align:left;padding:12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);margin:12px 0}
@@ -1043,6 +1046,17 @@
 .tg-status.success{display:block;color:#6ee7b7;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3)}
 .tg-status.info{display:block;color:#7dd3fc;background:rgba(38,169,255,.1);border:1px solid rgba(38,169,255,.3)}
 .tg-note{font-size:10px;color:rgba(255,255,255,.42);line-height:1.45;margin-top:13px}
+.tg-verify-overlay{position:absolute;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:24px;border-radius:20px;background:rgba(5,10,20,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.tg-verify-overlay.show{display:flex;animation:tgOverlayIn .3s ease both}
+.tg-verify-card{width:100%;padding:28px 18px;border-radius:22px;background:linear-gradient(145deg,rgba(16,31,30,.97),rgba(8,16,22,.98));border:1px solid rgba(52,211,153,.35);box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 35px rgba(16,185,129,.15);animation:tgVerifyPop .45s cubic-bezier(.16,1,.3,1) both}
+.tg-check-ring{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,.12);border:2px solid rgba(52,211,153,.7);box-shadow:0 0 30px rgba(16,185,129,.28);font-size:38px;color:#6ee7b7;animation:tgCheckPulse 1s ease-out both}
+.tg-verify-title{font-size:20px;font-weight:900;color:#fff}
+.tg-verify-sub{margin-top:6px;font-size:11px;color:rgba(255,255,255,.62)}
+@keyframes tgOverlayIn{from{opacity:0}to{opacity:1}}
+@keyframes tgVerifyPop{from{opacity:0;transform:scale(.82) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes tgCheckPulse{0%{transform:scale(.45);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.tg-btn:disabled{opacity:.65;cursor:wait;transform:none!important}
+
 </style>
 
 <style id="key-modal-fix-css">
@@ -1121,6 +1135,13 @@
             <button id="tg-check-btn" class="tg-btn tg-check" onclick="checkTelegramSubscription()">✅ Check Subscription</button>
 
             <div id="tg-status" class="tg-status"></div>
+            <div id="tg-verify-overlay" class="tg-verify-overlay" aria-live="polite">
+                <div class="tg-verify-card">
+                    <div class="tg-check-ring">✓</div>
+                    <div class="tg-verify-title">Subscription Verified</div>
+                    <div class="tg-verify-sub">Telegram subscription मिल गई। App अपने-आप खुल रहा है…</div>
+                </div>
+            </div>
             <div class="tg-note">Telegram profile name, username/ID और profile photo binding के बाद अपने-आप app में दिखेंगे।</div>
         </div>
     </div>
@@ -1868,6 +1889,8 @@ const TELEGRAM_CHANNEL_URL =
 const TELEGRAM_SESSION_KEY = 'hrry_telegram_session';
 let telegramBindToken = null;
 let telegramPollTimer = null;
+let telegramSessionMonitorTimer = null;
+let telegramPresenceTimer = null;
 
 const optionLetters = ['A', 'B', 'C', 'D'];
 
@@ -2159,6 +2182,8 @@ function showTelegramProfile(data) {
 
 function openTelegramChannel() {
     window.open(TELEGRAM_CHANNEL_URL, '_blank');
+    setTelegramStatus('Telegram channel खुल गया है। Subscribe करें—वापस आते ही verification अपने-आप चलता रहेगा।', 'info');
+    beginAutoSubscriptionVerification();
 }
 
 function openTelegramBot(url) {
@@ -2246,12 +2271,52 @@ function beginTelegramPolling() {
 function showSubscriptionStep(data) {
     showTelegramProfile(data);
     document.getElementById('tg-subscribe-btn').style.display = 'block';
-    document.getElementById('tg-check-btn').style.display = 'block';
+    document.getElementById('tg-check-btn').style.display = 'none';
     document.getElementById('tg-bind-btn').style.display = 'none';
-    setTelegramStatus('Telegram bind हो गया है। अब channel subscribe करके Check Subscription दबाएँ।', 'info');
+
+    setTelegramStatus(
+        'Channel Subscribe करें। Subscribe होते ही verification अपने-आप शुरू हो जाएगा…',
+        'info'
+    );
+
+    beginAutoSubscriptionVerification();
+}
+
+function beginAutoSubscriptionVerification() {
+    clearInterval(telegramPollTimer);
+
+    telegramPollTimer = setInterval(async () => {
+        if (!telegramBindToken) return;
+
+        try {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({token:telegramBindToken})
+            });
+
+            const data = await res.json();
+
+            if (!data.success) return;
+
+            if (data.subscribed) {
+                clearInterval(telegramPollTimer);
+                await finishTelegramLogin(data.telegramData, data.sessionToken);
+                return;
+            }
+
+            setTelegramStatus(
+                '📡 Subscription check चल रहा है… Subscribe करने के बाद यह अपने-आप verify होगा।',
+                'info'
+            );
+        } catch(e) {
+            console.warn('Telegram subscription polling:', e);
+        }
+    }, 2500);
 }
 
 async function checkTelegramSubscription() {
+    // Backward-compatible manual function; normal flow अब automatic है.
     if (!telegramBindToken) {
         telegramBindToken = localStorage.getItem('hrry_telegram_pending_token');
     }
@@ -2259,18 +2324,27 @@ async function checkTelegramSubscription() {
         setTelegramStatus('पहले Telegram bind करें।', 'error');
         return;
     }
+
     setTelegramStatus('Subscription verify हो रहा है…', 'info');
+
     try {
         const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
-            method:'POST', headers:{'Content-Type':'application/json'},
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
             body:JSON.stringify({token:telegramBindToken})
         });
+
         const data = await res.json();
+
         if (!data.success) throw new Error(data.error || 'Verification failed');
+
         if (!data.subscribed) {
             setTelegramStatus('❌ अभी channel subscription नहीं मिली। पहले channel Join करें।', 'error');
+            beginAutoSubscriptionVerification();
             return;
         }
+
+        clearInterval(telegramPollTimer);
         await finishTelegramLogin(data.telegramData, data.sessionToken);
     } catch(e) {
         console.error(e);
@@ -2280,6 +2354,7 @@ async function checkTelegramSubscription() {
 
 async function finishTelegramLogin(telegramData, sessionToken) {
     if (!telegramData || !sessionToken) return;
+
     currentUser = {
         telegramId: telegramData.telegramId,
         username: telegramData.username || 'No Username',
@@ -2287,13 +2362,85 @@ async function finishTelegramLogin(telegramData, sessionToken) {
         photoUrl: telegramData.photoUrl || '',
         coins: (currentUser && currentUser.coins) || 0
     };
+
     localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
     localStorage.setItem(TELEGRAM_SESSION_KEY, sessionToken);
     localStorage.removeItem('hrry_telegram_pending_token');
+
     telegramBindToken = null;
     clearInterval(telegramPollTimer);
+
+    await showTelegramVerified();
     startPresence();
+    startTelegramSessionMonitor();
     showHomeScreen();
+}
+
+async function showTelegramVerified() {
+    const overlay = document.getElementById('tg-verify-overlay');
+    if (!overlay) return;
+    overlay.classList.add('show');
+    await new Promise(resolve => setTimeout(resolve, 1050));
+    overlay.classList.remove('show');
+}
+
+function showTelegramGateForSubscription(telegramData, message) {
+    if (telegramData) showTelegramProfile(telegramData);
+
+    clearInterval(telegramPollTimer);
+    clearInterval(telegramSessionMonitorTimer);
+    telegramBindToken = localStorage.getItem('hrry_telegram_pending_token') || null;
+
+    document.getElementById('tg-bind-btn').style.display = 'none';
+    document.getElementById('tg-subscribe-btn').style.display = 'block';
+    document.getElementById('tg-check-btn').style.display = 'block';
+
+    setTelegramStatus(
+        message || 'आप अभी channel से subscribed नहीं हैं। पहले Subscribe करें।',
+        'error'
+    );
+    switchScreen('telegram-gate-screen');
+}
+
+function startTelegramSessionMonitor() {
+    clearInterval(telegramSessionMonitorTimer);
+
+    telegramSessionMonitorTimer = setInterval(async () => {
+        const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
+        if (!session) return;
+
+        try {
+            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({sessionToken:session})
+            });
+
+            const data = await res.json();
+
+            if (!data.success || !data.subscribed) {
+                localStorage.removeItem(TELEGRAM_SESSION_KEY);
+                showTelegramGateForSubscription(
+                    data.telegramData || currentUser,
+                    '⚠️ Channel subscription हट गई है। दोबारा Subscribe करें।'
+                );
+                return;
+            }
+
+            if (data.telegramData) {
+                currentUser = {
+                    ...currentUser,
+                    telegramId: data.telegramData.telegramId || currentUser.telegramId,
+                    username: data.telegramData.username || currentUser.username,
+                    name: data.telegramData.firstName || currentUser.name,
+                    photoUrl: data.telegramData.photoUrl || currentUser.photoUrl
+                };
+                localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
+            }
+        } catch(e) {
+            console.warn('Telegram session monitor:', e);
+        }
+    }, 12000);
 }
 
 async function restoreTelegramSession() {
@@ -2311,12 +2458,10 @@ async function restoreTelegramSession() {
         const data = await res.json();
         if (!data.success || !data.subscribed) {
             localStorage.removeItem(TELEGRAM_SESSION_KEY);
-            if (data.telegramData) showTelegramProfile(data.telegramData);
-            document.getElementById('tg-subscribe-btn').style.display='block';
-            document.getElementById('tg-check-btn').style.display='block';
-            document.getElementById('tg-bind-btn').style.display='none';
-            setTelegramStatus('आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई।', 'error');
-            switchScreen('telegram-gate-screen');
+            showTelegramGateForSubscription(
+                data.telegramData,
+                'आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई।'
+            );
             return;
         }
         await finishTelegramLogin(data.telegramData, session);
