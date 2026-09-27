@@ -1048,39 +1048,6 @@
             filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.8));
         }
     
-/* ================= TELEGRAM ACCESS GATE ================= */
-.telegram-gate-box{width:min(430px,92%);padding:28px 22px;text-align:center;position:relative;isolation:isolate;animation:tgPopupIn .55s cubic-bezier(.16,1,.3,1) both}
-#telegram-gate-screen{justify-content:center;align-items:center;background:rgba(3,6,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.telegram-gate-logo{width:72px;height:72px;border-radius:24px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(38,169,255,.25),rgba(99,102,241,.25));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 35px rgba(38,169,255,.18);animation:tgLogoFloat 2.8s ease-in-out infinite}
-@keyframes tgPopupIn{0%{opacity:0;transform:translateY(28px) scale(.94);filter:blur(8px)}70%{opacity:1;transform:translateY(-3px) scale(1.01);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes tgLogoFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(-2deg)}}
-.telegram-gate-title{font-size:22px;font-weight:900;color:#fff}
-.telegram-gate-sub{font-size:12px;line-height:1.55;color:var(--text-muted);margin:8px 0 18px}
-.tg-profile{display:none;align-items:center;gap:12px;text-align:left;padding:12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);margin:12px 0}
-.tg-profile img{width:48px;height:48px;border-radius:15px;object-fit:cover;background:rgba(255,255,255,.08)}
-.tg-profile-name{font-size:14px;font-weight:900;color:#fff}.tg-profile-id{font-size:10px;color:var(--text-muted);margin-top:3px;word-break:break-all}
-.tg-step{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin:8px 0;font-size:11px;color:rgba(255,255,255,.72)}
-.tg-step b{color:#fff}.tg-num{width:24px;height:24px;flex:0 0 24px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(38,169,255,.16);color:#7dd3fc;font-weight:900}
-.tg-btn{width:100%;border:0;border-radius:14px;padding:14px;margin-top:10px;font-size:14px;font-weight:900;cursor:pointer}
-.tg-primary{background:linear-gradient(135deg,#229ed9,#2563eb);color:#fff;box-shadow:0 8px 24px rgba(37,99,235,.25)}
-.tg-subscribe{background:linear-gradient(135deg,#ef4444,#be123c);color:#fff;display:none}
-.tg-check{background:linear-gradient(135deg,#10b981,#059669);color:#fff;display:none}
-.tg-status{display:none;margin-top:11px;padding:11px 12px;border-radius:12px;font-size:11px;font-weight:800;line-height:1.45}
-.tg-status.error{display:block;color:#fda4af;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3)}
-.tg-status.success{display:block;color:#6ee7b7;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3)}
-.tg-status.info{display:block;color:#7dd3fc;background:rgba(38,169,255,.1);border:1px solid rgba(38,169,255,.3)}
-.tg-note{font-size:10px;color:rgba(255,255,255,.42);line-height:1.45;margin-top:13px}
-.tg-verify-overlay{position:absolute;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:24px;border-radius:20px;background:rgba(5,10,20,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.tg-verify-overlay.show{display:flex;animation:tgOverlayIn .3s ease both}
-.tg-verify-card{width:100%;padding:28px 18px;border-radius:22px;background:linear-gradient(145deg,rgba(16,31,30,.97),rgba(8,16,22,.98));border:1px solid rgba(52,211,153,.35);box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 35px rgba(16,185,129,.15);animation:tgVerifyPop .45s cubic-bezier(.16,1,.3,1) both}
-.tg-check-ring{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(16,185,129,.12);border:2px solid rgba(52,211,153,.7);box-shadow:0 0 30px rgba(16,185,129,.28);font-size:38px;color:#6ee7b7;animation:tgCheckPulse 1s ease-out both}
-.tg-verify-title{font-size:20px;font-weight:900;color:#fff}
-.tg-verify-sub{margin-top:6px;font-size:11px;color:rgba(255,255,255,.62)}
-@keyframes tgOverlayIn{from{opacity:0}to{opacity:1}}
-@keyframes tgVerifyPop{from{opacity:0;transform:scale(.82) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-@keyframes tgCheckPulse{0%{transform:scale(.45);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
-.tg-btn:disabled{opacity:.65;cursor:wait;transform:none!important}
-
 </style>
 
 <style id="key-modal-fix-css">
@@ -1127,89 +1094,47 @@
 .key-or{text-align:center;margin:13px 0 2px;color:rgba(255,255,255,.4);font-size:11px;font-weight:800}
 .key-help-text{text-align:center;color:rgba(255,255,255,.5);font-size:11px;line-height:1.5;margin-top:12px}
 </style>
+<style>
+@keyframes tgPopupIn{0%{opacity:0;transform:translateY(28px) scale(.94);filter:blur(8px)}70%{opacity:1;transform:translateY(-3px) scale(1.01);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
+</style>
 
 </head>
 
 <body>
 
 <div class="app-viewport">
-
-
-    <!-- TELEGRAM BIND / SUBSCRIPTION GATE -->
-    <div id="telegram-gate-screen" class="screen active">
-        <div class="telegram-gate-box glass-card">
-            <div class="telegram-gate-logo">✈️</div>
-            <div class="telegram-gate-title">Telegram से Bind करें</div>
-            <div class="telegram-gate-sub">hrry.test इस्तेमाल करने से पहले अपना Telegram account bind करें और हमारा channel subscribe करें।</div>
-
-            <div id="tg-profile" class="tg-profile">
-                <img id="tg-profile-photo" alt="Telegram profile">
-                <div>
-                    <div id="tg-profile-name" class="tg-profile-name">Telegram User</div>
-                    <div id="tg-profile-id" class="tg-profile-id">ID: —</div>
-                </div>
+    <!-- LOCAL DEVICE PROFILE SETUP -->
+    <div id="profile-setup-screen" class="screen">
+        <div class="telegram-gate-box glass-card" style="width:min(430px,92%);padding:28px 22px;text-align:center;position:relative;isolation:isolate;animation:tgPopupIn .55s cubic-bezier(.16,1,.3,1) both;">
+            <div class="telegram-gate-logo" style="width:72px;height:72px;border-radius:24px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:linear-gradient(135deg,rgba(99,102,241,.25),rgba(6,182,212,.25));border:1px solid rgba(255,255,255,.12);box-shadow:0 0 35px rgba(99,102,241,.18);">👤</div>
+            <div class="telegram-gate-title" style="font-size:22px;font-weight:900;color:#fff;">अपना नाम दर्ज करें</div>
+            <div class="telegram-gate-sub" style="font-size:12px;line-height:1.55;color:var(--text-muted);margin:8px 0 18px;">
+                आपका profile और test progress इसी device में सुरक्षित रहेगा।
             </div>
 
-            <div id="tg-step-bind" class="tg-step"><span class="tg-num">1</span><div><b>Telegram Bind</b><br>नीचे button दबाकर Telegram bot खोलें और Start दबाएँ।</div></div>
-            <div id="tg-step-sub" class="tg-step"><span class="tg-num">2</span><div><b>Channel Subscribe</b><br>पहले <b>HR BSEB 10th All Course</b> channel join करें।</div></div>
-            <div id="tg-step-check" class="tg-step"><span class="tg-num">3</span><div><b>Verify</b><br>Subscribe करने के बाद नीचे Verify दबाएँ।</div></div>
-
-            <button id="tg-bind-btn" class="tg-btn tg-primary" onclick="startTelegramBinding()">✈️ Bind Telegram Account</button>
-            <button id="tg-subscribe-btn" class="tg-btn tg-subscribe" onclick="openTelegramChannel()">🔴 Subscribe Channel</button>
-            <button id="tg-check-btn" class="tg-btn tg-check" onclick="checkTelegramSubscription()">✅ Check Subscription</button>
-
-            <div id="tg-status" class="tg-status"></div>
-            <div id="tg-verify-overlay" class="tg-verify-overlay" aria-live="polite">
-                <div class="tg-verify-card">
-                    <div class="tg-check-ring">✓</div>
-                    <div class="tg-verify-title">Subscription Verified</div>
-                    <div class="tg-verify-sub">Telegram subscription मिल गई। App अपने-आप खुल रहा है…</div>
-                </div>
-            </div>
-            <div class="tg-note">Telegram profile name, username/ID और profile photo binding के बाद अपने-आप app में दिखेंगे।</div>
-        </div>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="name-screen" class="screen">
-
-        <div class="welcome-box glass-card">
-
-            <div class="brand-logo">hrry.test</div>
-
-            <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;font-weight:500;">
-                Premium Examination Platform
-            </div>
-
-            <div style="margin-bottom:22px;text-align:left;">
-
-                <label style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:6px;display:block;">
+            <div style="text-align:left;margin-top:12px;">
+                <label style="font-size:11px;font-weight:800;color:var(--text-muted);margin-bottom:7px;display:block;">
                     STUDENT FULL NAME
                 </label>
-
                 <input
                     type="text"
                     id="student-name-input"
                     class="glass-input"
                     placeholder="e.g. Rahul Kumar"
-                    autocomplete="off"
+                    autocomplete="name"
+                    maxlength="60"
                 >
-
             </div>
 
-            <button
-                class="btn-gradient"
-                style="width:100%;"
-                onclick="saveStudentAccount()"
-            >
-                Continue To Dashboard →
+            <button class="tg-btn tg-primary" style="width:100%;border:0;border-radius:14px;padding:14px;margin-top:14px;font-size:14px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#6366f1,#06b6d4);color:#fff;box-shadow:0 8px 24px rgba(99,102,241,.25);" onclick="saveStudentAccount()">
+                🚀 Continue To Dashboard
             </button>
 
+            <div class="tg-note" style="font-size:10px;color:rgba(255,255,255,.42);line-height:1.45;margin-top:13px;">
+                Name, unlock status, test history, attempts और points device storage में बने रहेंगे।
+            </div>
         </div>
-
     </div>
-
-
     <!-- DASHBOARD -->
     <div id="home-screen" class="screen">
 
@@ -1906,47 +1831,26 @@
 const FIREBASE_DB_URL =
     "https://hyuuu-732f9-default-rtdb.firebaseio.com";
 
-const TELEGRAM_BIND_BACKEND =
-    "https://telegram-bind-test.onrender.com";
-const TELEGRAM_CHANNEL_URL =
-    "https://t.me/hrbseb10thallcorse";
-const TELEGRAM_SESSION_KEY = 'hrry_telegram_session';
-let telegramBindToken = null;
-let telegramPollTimer = null;
-let telegramSessionMonitorTimer = null;
-let telegramPresenceTimer = null;
-
 const optionLetters = ['A', 'B', 'C', 'D'];
 
 let currentUser =
     JSON.parse(localStorage.getItem('harry_user_account')) || null;
 
 let currentTestQuestions = [];
-
 let currentIndex = 0;
-
 let userAnswers = [];
-
 let revealedAnswers = [];
-
 let timeTakenSeconds = 0;
-
 let timerInterval = null;
-
 let activeSubjectId = null;
 let activeSubjectName = "";
-
 let activeChapterId = null;
 let activeChapterName = "";
-
 let activeTestId = null;
 let activeTestName = "";
 
 /* ================================
-   KEY / LICENSE SYSTEM
-   Firebase paths expected by user/admin app:
-   licenseKeys/{KEY}
-   users/{DEVICE_ID}
+   LOCAL DEVICE PROFILE + KEY SYSTEM
 ================================ */
 const APP_NAME = 'hrry.test';
 const ADMIN_WHATSAPP = '9199015259';
@@ -1974,56 +1878,31 @@ function cryptoRandomId() {
 }
 
 function getUnlocks() {
-    try { return JSON.parse(localStorage.getItem(UNLOCK_STORAGE_KEY)) || {}; }
-    catch(e) { return {}; }
+    try {
+        return JSON.parse(localStorage.getItem(UNLOCK_STORAGE_KEY)) || {};
+    } catch(e) {
+        return {};
+    }
 }
 
 function saveUnlocks(data) {
     localStorage.setItem(UNLOCK_STORAGE_KEY, JSON.stringify(data));
 }
 
-/* ================================
-   TELEGRAM ACCOUNT CLOUD SYNC
-   Telegram ID = permanent account key
-================================ */
-const TELEGRAM_ACCOUNT_ROOT = 'telegramAccounts';
-
-function getTelegramAccountId() {
-    return currentUser && currentUser.telegramId
-        ? String(currentUser.telegramId)
-        : '';
+function deviceUserPath() {
+    return `users/${encodeURIComponent(getDeviceId())}`;
 }
 
-function telegramAccountPath(telegramId) {
-    return `${TELEGRAM_ACCOUNT_ROOT}/${encodeURIComponent(String(telegramId))}`;
-}
-
-async function loadTelegramAccountFromCloud(telegramId) {
-    if (!FIREBASE_DB_URL || !telegramId) return null;
-    try {
-        const res = await fetch(`${FIREBASE_DB_URL}/${telegramAccountPath(telegramId)}.json`, { cache: 'no-store' });
-        if (!res.ok) return null;
-        return await res.json();
-    } catch (e) {
-        console.warn('Telegram account restore failed:', e);
-        return null;
-    }
-}
-
-async function saveTelegramAccountToCloud(extra = {}) {
-    const telegramId = getTelegramAccountId();
-    if (!FIREBASE_DB_URL || !telegramId) return false;
+async function saveUserDataToCloud(extra = {}) {
+    if (!FIREBASE_DB_URL || !currentUser) return false;
 
     const unlocks = getUnlocks();
     const history = JSON.parse(localStorage.getItem('harry_history') || '[]');
     const attempts = JSON.parse(localStorage.getItem('harry_test_attempts_count') || '{}');
 
     const payload = {
-        telegramId,
-        username: currentUser.username || 'No Username',
-        telegramName: currentUser.telegramName || currentUser.name || 'Telegram User',
+        deviceId: getDeviceId(),
         name: currentUser.name || 'Student',
-        photoUrl: currentUser.photoUrl || '',
         coins: Number(currentUser.coins || 0),
         unlocks,
         testSeriesUnlocked: !!(unlocks.__all_tests__ && unlocks.__all_tests__.unlocked),
@@ -2036,53 +1915,22 @@ async function saveTelegramAccountToCloud(extra = {}) {
     };
 
     try {
-        const res = await fetch(`${FIREBASE_DB_URL}/${telegramAccountPath(telegramId)}.json`, {
+        const res = await fetch(`${FIREBASE_DB_URL}/${deviceUserPath()}.json`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
         return res.ok;
     } catch (e) {
-        console.warn('Telegram account cloud save failed:', e);
+        console.warn('Device profile cloud backup failed:', e);
         return false;
     }
 }
 
-async function restoreTelegramAccountData(telegramId) {
-    const cloud = await loadTelegramAccountFromCloud(telegramId);
-    if (!cloud) return null;
-
-    if (cloud.unlocks && typeof cloud.unlocks === 'object') {
-        saveUnlocks(cloud.unlocks);
-    } else if (cloud.testSeriesUnlocked && cloud.testSeriesKey) {
-        saveUnlocks({
-            __all_tests__: {
-                unlocked: true,
-                key: cloud.testSeriesKey,
-                unlockedAt: cloud.testSeriesUnlockedAt || Date.now(),
-                telegramId,
-                scope: 'all_test_series'
-            }
-        });
+function saveCurrentUserLocal() {
+    if (currentUser) {
+        localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
     }
-
-    if (Array.isArray(cloud.history)) {
-        localStorage.setItem('harry_history', JSON.stringify(cloud.history));
-    }
-
-    if (cloud.attempts && typeof cloud.attempts === 'object') {
-        localStorage.setItem('harry_test_attempts_count', JSON.stringify(cloud.attempts));
-    }
-
-    const cloudCoins = Number(cloud.coins || 0);
-    currentUser = {
-        ...(currentUser || {}),
-        telegramId,
-        coins: cloudCoins
-    };
-
-    localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
-    return cloud;
 }
 
 function hasFullTestSeriesAccess() {
@@ -2092,19 +1940,14 @@ function hasFullTestSeriesAccess() {
 }
 
 function isTestUnlocked(testId) {
-    // ONE KEY = COMPLETE APP TEST ACCESS. This covers existing, available,
-    // future and tests loaded from any test/chapter list in this app.
     if (hasFullTestSeriesAccess()) return true;
-
-    // Backward compatibility with older per-test unlocks.
     const unlocks = getUnlocks();
     const u = unlocks[testId];
     return !!(u && u.unlocked === true && u.key);
 }
 
 function getGlobalTestUnlock() {
-    const unlocks = getUnlocks();
-    return unlocks.__all_tests__ || null;
+    return getUnlocks().__all_tests__ || null;
 }
 
 function setKeyStatus(message, type) {
@@ -2136,11 +1979,16 @@ function contactAdminWhatsApp() {
     window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${msg}`, '_blank');
 }
 
+
 async function verifyTestKey() {
     if (!pendingLockedTest) return;
+
     const input = document.getElementById('unlock-key-input');
     const key = input.value.trim().toUpperCase();
-    if (!key) { setKeyStatus('कृपया key डालें।', 'error'); return; }
+    if (!key) {
+        setKeyStatus('कृपया key डालें।', 'error');
+        return;
+    }
 
     setKeyStatus('Key verify हो रही है…', 'success');
 
@@ -2149,34 +1997,38 @@ async function verifyTestKey() {
         const res = await fetch(`${FIREBASE_DB_URL}/${path}.json`, { cache: 'no-store' });
         const data = await res.json();
 
-        if (!data) { setKeyStatus('❌ यह key valid नहीं है।', 'error'); return; }
-        if (data.appName && data.appName !== APP_NAME) { setKeyStatus('❌ यह key इस app के लिए नहीं है।', 'error'); return; }
-        if (data.status && String(data.status).toLowerCase() !== 'active') { setKeyStatus('❌ यह key admin द्वारा blocked/inactive है।', 'error'); return; }
-        if (data.blocked === true) { setKeyStatus('❌ यह key admin द्वारा blocked है।', 'error'); return; }
+        if (!data) {
+            setKeyStatus('❌ यह key valid नहीं है।', 'error');
+            return;
+        }
+        if (data.appName && data.appName !== APP_NAME) {
+            setKeyStatus('❌ यह key इस app के लिए नहीं है।', 'error');
+            return;
+        }
+        if (data.status && String(data.status).toLowerCase() !== 'active') {
+            setKeyStatus('❌ यह key admin द्वारा blocked/inactive है।', 'error');
+            return;
+        }
+        if (data.blocked === true) {
+            setKeyStatus('❌ यह key admin द्वारा blocked है।', 'error');
+            return;
+        }
 
         const deviceId = getDeviceId();
-        const telegramId = getTelegramAccountId();
-        if (!telegramId) {
-            setKeyStatus('❌ पहले Telegram account bind करें।', 'error');
+
+        /* New system: key is bound only to this device. */
+        if (data.boundDeviceId && String(data.boundDeviceId) !== String(deviceId)) {
+            setKeyStatus('❌ यह key दूसरे device से linked है।', 'error');
             return;
         }
-        if (data.boundTelegramId && String(data.boundTelegramId) !== String(telegramId)) {
-            setKeyStatus('❌ यह key दूसरे Telegram account से linked है।', 'error');
-            return;
-        }
-        if (!data.boundTelegramId && data.boundDeviceId && data.boundDeviceId !== deviceId) {
-            setKeyStatus('❌ यह पुरानी key दूसरे device से bound है। इस Telegram account के लिए नई key चाहिए।', 'error');
-            return;
-        }
-        if (data.used === true && !data.boundTelegramId && !data.boundDeviceId) {
+
+        if (data.used === true && !data.boundDeviceId) {
             setKeyStatus('❌ यह one-time key पहले इस्तेमाल हो चुकी है।', 'error');
             return;
         }
 
-        /* Bind only after all checks pass. Admin can later block the key. */
         const now = Date.now();
         const updates = {
-            boundTelegramId: telegramId,
             boundDeviceId: deviceId,
             used: true,
             usedAt: data.usedAt || now,
@@ -2196,19 +2048,16 @@ async function verifyTestKey() {
         }
 
         const unlocks = getUnlocks();
-        // IMPORTANT: this is a single Test Series license.
-        // The same key unlocks every existing and future test on this device.
         unlocks.__all_tests__ = {
             unlocked: true,
             key: key,
             unlockedAt: now,
-            telegramId: telegramId,
             deviceId: deviceId,
             scope: 'all_test_series'
         };
         saveUnlocks(unlocks);
 
-        await saveTelegramAccountToCloud({
+        await saveUserDataToCloud({
             testSeriesUnlocked: true,
             testSeriesKey: key,
             testSeriesUnlockedAt: now,
@@ -2216,6 +2065,7 @@ async function verifyTestKey() {
         });
 
         setKeyStatus('✅ पूरी Test Series unlock हो गई।', 'success');
+
         const unlockedTest = { ...pendingLockedTest };
         setTimeout(() => {
             document.getElementById('key-modal').style.display = 'none';
@@ -2278,355 +2128,16 @@ const getCenterLoaderHTML = () => `
 
 window.onload = async function() {
     getDeviceId();
-    await restoreTelegramSession();
-};
 
-
-/* ================================
-   TELEGRAM BIND + CHANNEL VERIFY
-================================ */
-function setTelegramStatus(message, type='info') {
-    const el = document.getElementById('tg-status');
-    if (!el) return;
-    el.className = 'tg-status ' + type;
-    el.innerText = message;
-}
-
-function showTelegramProfile(data) {
-    const box = document.getElementById('tg-profile');
-    if (!box || !data) return;
-    box.style.display = 'flex';
-    document.getElementById('tg-profile-name').innerText =
-        data.firstName ? `${data.firstName}${data.username && data.username !== 'No Username' ? ' @' + data.username : ''}` : 'Telegram User';
-    document.getElementById('tg-profile-id').innerText = `ID: ${data.telegramId || '—'}`;
-    const img = document.getElementById('tg-profile-photo');
-    if (data.photoUrl) {
-        img.src = data.photoUrl;
-        img.style.display = 'block';
+    if (currentUser && currentUser.name) {
+        showHomeScreen();
+        startPresence();
     } else {
-        img.style.display = 'none';
+        switchScreen('profile-setup-screen');
+        const input = document.getElementById('student-name-input');
+        if (input) setTimeout(() => input.focus(), 250);
     }
-}
-
-function openTelegramChannel() {
-    window.open(TELEGRAM_CHANNEL_URL, '_blank');
-    setTelegramStatus('Telegram channel खुल गया है। Subscribe करें—वापस आते ही verification अपने-आप चलता रहेगा।', 'info');
-    beginAutoSubscriptionVerification();
-}
-
-function openTelegramBot(url) {
-    window.open(url, '_blank');
-}
-
-async function startTelegramBinding() {
-    const btn = document.getElementById('tg-bind-btn');
-    btn.disabled = true;
-    localStorage.removeItem('hrry_telegram_bound_profile');
-    setTelegramStatus('Binding link बनाया जा रहा है…', 'info');
-    try {
-        const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/start`, {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({deviceId:getDeviceId(), appName:APP_NAME})
-        });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error || 'Unable to start binding');
-        telegramBindToken = data.token;
-        localStorage.setItem('hrry_telegram_pending_token', telegramBindToken);
-        setTelegramStatus('Telegram खुल रहा है। वहाँ START दबाएँ।', 'success');
-        openTelegramBot(data.telegramUrl);
-        beginTelegramPolling();
-    } catch(e) {
-        console.error(e);
-        setTelegramStatus('❌ Telegram binding server से connection नहीं हो पाया।', 'error');
-        btn.disabled = false;
-    }
-}
-
-function beginTelegramPolling() {
-    clearInterval(telegramPollTimer);
-    telegramPollTimer = setInterval(async () => {
-        if (!telegramBindToken) return;
-        try {
-            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/status`, {
-                method:'POST', headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({token:telegramBindToken})
-            });
-            const data = await res.json();
-            // Backend के पुराने/नए response दोनों को safely handle करें।
-            // अगर Telegram profile मिल चुकी है तो token को तुरंत expired न मानें।
-            if (data.telegramData) {
-                showTelegramProfile(data.telegramData);
-                localStorage.setItem('hrry_telegram_bound_profile', JSON.stringify(data.telegramData));
-            }
-
-            if (data.status === 'expired') {
-                clearInterval(telegramPollTimer);
-                setTelegramStatus('❌ Binding code expire हो गया। फिर से Bind Telegram दबाएँ।', 'error');
-                document.getElementById('tg-bind-btn').disabled = false;
-                return;
-            }
-
-            // कुछ पुराने backend successful read के बाद token delete करके not_found देते थे।
-            // अगर profile पहले ही bind हो चुकी है, तो उसे expired न दिखाएँ।
-            if (data.status === 'not_found') {
-                const savedProfile = localStorage.getItem('hrry_telegram_bound_profile');
-                if (savedProfile) {
-                    try {
-                        const profile = JSON.parse(savedProfile);
-                        showTelegramProfile(profile);
-                        showSubscriptionStep(profile);
-                        clearInterval(telegramPollTimer);
-                        return;
-                    } catch (_) {}
-                }
-                clearInterval(telegramPollTimer);
-                setTelegramStatus('❌ Binding session नहीं मिली। फिर से Bind Telegram दबाएँ।', 'error');
-                document.getElementById('tg-bind-btn').disabled = false;
-                return;
-            }
-            if (data.status === 'bound' && data.subscribed === false) {
-                clearInterval(telegramPollTimer);
-                showSubscriptionStep(data.telegramData);
-            }
-            if (data.status === 'completed' && data.sessionToken) {
-                clearInterval(telegramPollTimer);
-                await finishTelegramLogin(data.telegramData, data.sessionToken);
-            }
-        } catch(e) { console.warn('Telegram status poll:', e); }
-    }, 1800);
-}
-
-function showSubscriptionStep(data) {
-    showTelegramProfile(data);
-    document.getElementById('tg-subscribe-btn').style.display = 'block';
-    document.getElementById('tg-check-btn').style.display = 'none';
-    document.getElementById('tg-bind-btn').style.display = 'none';
-
-    setTelegramStatus(
-        'Channel Subscribe करें। Subscribe होते ही verification अपने-आप शुरू हो जाएगा…',
-        'info'
-    );
-
-    beginAutoSubscriptionVerification();
-}
-
-function beginAutoSubscriptionVerification() {
-    clearInterval(telegramPollTimer);
-
-    telegramPollTimer = setInterval(async () => {
-        if (!telegramBindToken) return;
-
-        try {
-            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({token:telegramBindToken})
-            });
-
-            const data = await res.json();
-
-            if (!data.success) return;
-
-            if (data.subscribed) {
-                clearInterval(telegramPollTimer);
-                await finishTelegramLogin(data.telegramData, data.sessionToken);
-                return;
-            }
-
-            setTelegramStatus(
-                '📡 Subscription check चल रहा है… Subscribe करने के बाद यह अपने-आप verify होगा।',
-                'info'
-            );
-        } catch(e) {
-            console.warn('Telegram subscription polling:', e);
-        }
-    }, 2500);
-}
-
-async function checkTelegramSubscription() {
-    // Backward-compatible manual function; normal flow अब automatic है.
-    if (!telegramBindToken) {
-        telegramBindToken = localStorage.getItem('hrry_telegram_pending_token');
-    }
-    if (!telegramBindToken) {
-        setTelegramStatus('पहले Telegram bind करें।', 'error');
-        return;
-    }
-
-    setTelegramStatus('Subscription verify हो रहा है…', 'info');
-
-    try {
-        const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/check`, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({token:telegramBindToken})
-        });
-
-        const data = await res.json();
-
-        if (!data.success) throw new Error(data.error || 'Verification failed');
-
-        if (!data.subscribed) {
-            setTelegramStatus('❌ अभी channel subscription नहीं मिली। पहले channel Join करें।', 'error');
-            beginAutoSubscriptionVerification();
-            return;
-        }
-
-        clearInterval(telegramPollTimer);
-        await finishTelegramLogin(data.telegramData, data.sessionToken);
-    } catch(e) {
-        console.error(e);
-        setTelegramStatus('❌ Subscription verify नहीं हो पाया। फिर से कोशिश करें।', 'error');
-    }
-}
-
-async function finishTelegramLogin(telegramData, sessionToken) {
-    if (!telegramData || !sessionToken || !telegramData.telegramId) return;
-
-    const telegramId = String(telegramData.telegramId);
-    const previousName = currentUser && currentUser.name ? currentUser.name : '';
-
-    currentUser = {
-        ...(currentUser || {}),
-        telegramId,
-        username: telegramData.username || 'No Username',
-        telegramName: telegramData.firstName || 'Telegram User',
-        name: previousName || telegramData.firstName || 'Telegram User',
-        photoUrl: telegramData.photoUrl || (currentUser && currentUser.photoUrl) || '',
-        coins: Number((currentUser && currentUser.coins) || 0)
-    };
-
-    /* Telegram ID is the permanent account identity.
-       Restore this account before opening the dashboard. */
-    const cloud = await restoreTelegramAccountData(telegramId);
-
-    /* Current Telegram session is authoritative for profile identity.
-       Cloud is authoritative for persistent app data. */
-    currentUser = {
-        ...(currentUser || {}),
-        telegramId,
-        username: telegramData.username || 'No Username',
-        telegramName: telegramData.firstName || 'Telegram User',
-        photoUrl: telegramData.photoUrl || '',
-        name: previousName || (cloud && cloud.name) || telegramData.firstName || 'Telegram User',
-        coins: Number((cloud && cloud.coins) ?? currentUser.coins ?? 0)
-    };
-
-    localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
-    localStorage.setItem(TELEGRAM_SESSION_KEY, sessionToken);
-    localStorage.removeItem('hrry_telegram_pending_token');
-
-    telegramBindToken = null;
-    clearInterval(telegramPollTimer);
-
-    await saveTelegramAccountToCloud({
-        lastLoginAt: Date.now(),
-        sessionActive: true
-    });
-
-    await showTelegramVerified();
-    startPresence();
-    startTelegramSessionMonitor();
-    showHomeScreen();
-}
-
-async function showTelegramVerified() {
-    const overlay = document.getElementById('tg-verify-overlay');
-    if (!overlay) return;
-    overlay.classList.add('show');
-    await new Promise(resolve => setTimeout(resolve, 1050));
-    overlay.classList.remove('show');
-}
-
-function showTelegramGateForSubscription(telegramData, message) {
-    if (telegramData) showTelegramProfile(telegramData);
-
-    clearInterval(telegramPollTimer);
-    clearInterval(telegramSessionMonitorTimer);
-    telegramBindToken = localStorage.getItem('hrry_telegram_pending_token') || null;
-
-    document.getElementById('tg-bind-btn').style.display = 'none';
-    document.getElementById('tg-subscribe-btn').style.display = 'block';
-    document.getElementById('tg-check-btn').style.display = 'block';
-
-    setTelegramStatus(
-        message || 'आप अभी channel से subscribed नहीं हैं। पहले Subscribe करें।',
-        'error'
-    );
-    switchScreen('telegram-gate-screen');
-}
-
-function startTelegramSessionMonitor() {
-    clearInterval(telegramSessionMonitorTimer);
-
-    telegramSessionMonitorTimer = setInterval(async () => {
-        const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
-        if (!session) return;
-
-        try {
-            const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({sessionToken:session})
-            });
-
-            const data = await res.json();
-
-            if (!data.success || !data.subscribed) {
-                localStorage.removeItem(TELEGRAM_SESSION_KEY);
-                showTelegramGateForSubscription(
-                    data.telegramData || currentUser,
-                    '⚠️ Channel subscription हट गई है। दोबारा Subscribe करें।'
-                );
-                return;
-            }
-
-                    if (data.telegramData) {
-                currentUser = {
-                    ...currentUser,
-                    telegramId: data.telegramData.telegramId || currentUser.telegramId,
-                    username: data.telegramData.username || currentUser.username,
-                    telegramName: data.telegramData.firstName || currentUser.telegramName || currentUser.name,
-                    photoUrl: data.telegramData.photoUrl || currentUser.photoUrl
-                };
-                localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
-                saveTelegramAccountToCloud({ sessionActive: true });
-            }
-        } catch(e) {
-            console.warn('Telegram session monitor:', e);
-        }
-    }, 12000);
-}
-
-async function restoreTelegramSession() {
-    const session = localStorage.getItem(TELEGRAM_SESSION_KEY);
-    if (!session) {
-        switchScreen('telegram-gate-screen');
-        return;
-    }
-    setTelegramStatus('Telegram account verify हो रहा है…', 'info');
-    try {
-        const res = await fetch(`${TELEGRAM_BIND_BACKEND}/api/bind/session`, {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({sessionToken:session})
-        });
-        const data = await res.json();
-        if (!data.success || !data.subscribed) {
-            localStorage.removeItem(TELEGRAM_SESSION_KEY);
-            showTelegramGateForSubscription(
-                data.telegramData,
-                'आपका Telegram bind है, लेकिन channel subscription verify नहीं हुई।'
-            );
-            return;
-        }
-        await finishTelegramLogin(data.telegramData, session);
-    } catch(e) {
-        console.error(e);
-        switchScreen('telegram-gate-screen');
-        setTelegramStatus('Server verify नहीं हो पाया। Internet check करके फिर कोशिश करें।', 'error');
-    }
-}
-
+};
 
 async function fetchFromDB(path) {
 
@@ -2665,45 +2176,29 @@ function switchScreen(screenId) {
 
 
 /* ================================
-   LOGIN - NAME ONLY
+   LOCAL PROFILE - NAME ONLY
 ================================ */
-
 function saveStudentAccount() {
-
-    const nameVal =
-        document
-            .getElementById('student-name-input')
-            .value
-            .trim();
+    const input = document.getElementById('student-name-input');
+    const nameVal = input ? input.value.trim() : '';
 
     if (!nameVal) {
-
         alert('कृपया अपना नाम दर्ज करें!');
-
         return;
-
     }
-
 
     currentUser = {
         ...(currentUser || {}),
+        deviceId: getDeviceId(),
         name: nameVal,
-        coins: currentUser ? (currentUser.coins || 0) : 0
+        coins: Number(currentUser?.coins || 0)
     };
 
-
-    localStorage.setItem(
-        'harry_user_account',
-        JSON.stringify(currentUser)
-    );
-
-
-    localStorage.setItem('harry_user_account', JSON.stringify(currentUser));
-    saveTelegramAccountToCloud();
+    saveCurrentUserLocal();
+    saveUserDataToCloud({ profileUpdatedAt: Date.now() });
     showHomeScreen();
-
+    startPresence();
 }
-
 
 /* ================================
    HOME
@@ -2719,9 +2214,7 @@ async function showHomeScreen() {
 
     document
         .getElementById('dash-userphone')
-        .innerText = currentUser.username && currentUser.username !== 'No Username'
-            ? '@' + currentUser.username
-            : 'Telegram ID: ' + (currentUser.telegramId || '—');
+        .innerText = 'Saved on this device';
 
     const avatar = document.getElementById('user-avatar');
     if (currentUser.photoUrl) {
@@ -2885,9 +2378,11 @@ async function loadLeaderboard() {
     allResults.forEach(res => {
 
         const key =
-            res.telegramId
-                ? `tg:${res.telegramId}`
-                : `legacy:${String(res.name || '').trim().toLowerCase()}`;
+            res.deviceId
+                ? `device:${res.deviceId}`
+                : (res.telegramId
+                    ? `tg:${res.telegramId}`
+                    : `legacy:${String(res.name || '').trim().toLowerCase()}`);
 
 
         if (!userMap[key]) {
@@ -2963,8 +2458,10 @@ async function loadLeaderboard() {
 
             const isUser =
                 currentUser &&
-                item.telegramId &&
-                String(item.telegramId) === String(currentUser.telegramId);
+                (
+                    (item.deviceId && String(item.deviceId) === String(getDeviceId())) ||
+                    (!item.deviceId && item.telegramId && String(item.telegramId) === String(currentUser.telegramId))
+                );
 
 
             let rankClass =
@@ -3046,14 +2543,14 @@ async function loadLeaderboard() {
 
                     <div class="rank-avatar">
                         ${item.photoUrl
-                            ? `<img src="${item.photoUrl}" alt="Telegram profile" loading="lazy">`
-                            : `<span>${String(item.name || item.telegramName || 'T').charAt(0).toUpperCase()}</span>`}
+                            ? `<img src="${item.photoUrl}" alt="Student profile" loading="lazy">`
+                            : `<span>${String(item.name || 'T').charAt(0).toUpperCase()}</span>`}
                     </div>
 
                     <div class="rank-details">
 
                         <div class="rank-name">
-                            ${item.name || item.telegramName || 'Telegram User'}
+                            ${item.name || 'Student'}
 
                             ${
                                 isUser
@@ -3116,16 +2613,16 @@ function openTopperModal(
 
     const modalAvatar = document.getElementById('top-modal-avatar');
     if (topper.photoUrl) {
-        modalAvatar.innerHTML = `<img src="${topper.photoUrl}" alt="Telegram profile" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;">`;
+        modalAvatar.innerHTML = `<img src="${topper.photoUrl}" alt="Student profile" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;">`;
     } else {
-        modalAvatar.innerText = String(topper.name || topper.telegramName || 'T').charAt(0).toUpperCase();
+        modalAvatar.innerText = String(topper.name || 'T').charAt(0).toUpperCase();
     }
 
 
     document
         .getElementById('top-modal-name')
         .innerText =
-            topper.name || topper.telegramName || 'Telegram User';
+            topper.name || 'Student';
 
 
     document
@@ -5123,14 +4620,8 @@ async function submitTest() {
         name:
             currentUser.name,
 
-        telegramId:
-            currentUser.telegramId || '',
-
-        telegramName:
-            currentUser.telegramName || currentUser.name || '',
-
-        username:
-            currentUser.username || 'No Username',
+        deviceId:
+            getDeviceId(),
 
         photoUrl:
             currentUser.photoUrl || '',
@@ -5213,7 +4704,8 @@ async function submitTest() {
 
     }
 
-    await saveTelegramAccountToCloud({
+    saveCurrentUserLocal();
+    await saveUserDataToCloud({
         history: history.slice(0, 100),
         attempts: testAttemptsMap,
         coins: currentUser.coins,
