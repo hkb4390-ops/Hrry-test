@@ -880,6 +880,36 @@
         }
 
 
+        /* ================================
+           TEST LOCK / KEY SYSTEM
+        ================================ */
+        .locked-test-card { position: relative; overflow: hidden; }
+        .locked-test-card::after {
+            content: ''; position: absolute; inset: 0; pointer-events:none;
+            background: linear-gradient(135deg, rgba(245,158,11,.06), rgba(99,102,241,.03));
+        }
+        .lock-badge {
+            display:inline-flex; align-items:center; gap:5px;
+            padding:5px 9px; border-radius:20px;
+            font-size:10px; font-weight:900;
+            color:#fbbf24; background:rgba(245,158,11,.13);
+            border:1px solid rgba(245,158,11,.35);
+        }
+        .key-modal-icon {
+            width:58px;height:58px;border-radius:18px;
+            margin:0 auto 10px; display:flex;align-items:center;justify-content:center;
+            font-size:28px; background:linear-gradient(135deg,rgba(245,158,11,.25),rgba(99,102,241,.25));
+            border:1px solid rgba(255,255,255,.12); box-shadow:0 0 25px rgba(245,158,11,.15);
+        }
+        .key-status {
+            display:none; padding:10px 12px; border-radius:12px; margin-top:10px;
+            font-size:11px; font-weight:800; line-height:1.4;
+        }
+        .key-status.error { display:block; color:#fda4af; background:rgba(244,63,94,.1); border:1px solid rgba(244,63,94,.3); }
+        .key-status.success { display:block; color:#6ee7b7; background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); }
+        .wa-btn { background:linear-gradient(135deg,#16a34a,#22c55e); color:#fff; box-shadow:0 8px 20px rgba(34,197,94,.25); }
+        .small-note { font-size:10px;color:var(--text-muted);text-align:center;line-height:1.45;margin-top:9px; }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1062,6 +1092,59 @@
 @keyframes voicePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 .question-voice-note{font-size:9px;color:var(--text-muted);margin-top:5px;opacity:.72;}
 
+</style>
+
+<style id="key-modal-fix-css">
+.key-modal-overlay{
+  position:fixed; inset:0; z-index:99999;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(0,0,0,.72);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+.key-modal-box{
+  width:min(430px,100%); position:relative; padding:24px;
+  border-radius:26px; color:#fff;
+  background:linear-gradient(145deg,rgba(25,28,45,.98),rgba(10,12,22,.98));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 25px 80px rgba(0,0,0,.6);
+}
+.key-modal-close{
+  position:absolute; right:12px; top:10px; width:38px; height:38px;
+  border:0; border-radius:50%; background:rgba(255,255,255,.08);
+  color:#fff; font-size:25px; cursor:pointer;
+}
+.key-modal-title{text-align:center;font-size:22px;font-weight:900;margin-top:4px}
+.key-modal-subtitle{text-align:center;color:rgba(255,255,255,.62);font-size:13px;margin-top:5px;margin-bottom:18px}
+.key-price-box{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 15px;margin-bottom:16px;border-radius:15px;
+  background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.25);
+}
+.key-price-box span{font-size:13px;font-weight:800}.key-price-box strong{font-size:19px;color:#fbbf24}
+.key-input-label{display:block;font-size:12px;font-weight:800;margin:0 0 7px 2px;color:rgba(255,255,255,.75)}
+.key-input{
+  width:100%;box-sizing:border-box;padding:14px 15px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);outline:none;
+  background:rgba(255,255,255,.07);color:#fff;font-size:15px;font-weight:800;
+  letter-spacing:1px;
+}
+.key-input:focus{border-color:rgba(99,102,241,.8);box-shadow:0 0 0 3px rgba(99,102,241,.13)}
+.key-unlock-btn,.key-whatsapp-btn{
+  width:100%;border:0;border-radius:14px;padding:14px;margin-top:11px;
+  font-size:14px;font-weight:900;cursor:pointer;
+}
+.key-unlock-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.key-whatsapp-btn{background:#25d366;color:#071b0d}
+.free-key-btn{
+    width:100%; margin-top:10px; padding:13px; border-radius:12px;
+    border:1px solid rgba(34,211,238,.35);
+    background:linear-gradient(135deg,rgba(6,182,212,.18),rgba(99,102,241,.18));
+    color:#e0f2fe; font-weight:900; cursor:pointer;
+    box-shadow:0 8px 25px rgba(6,182,212,.10);
+}
+.free-key-note{margin-top:8px;text-align:center;font-size:10px;color:#94a3b8;line-height:1.5}
+.key-or{text-align:center;margin:13px 0 2px;color:rgba(255,255,255,.4);font-size:11px;font-weight:800}
+.key-help-text{text-align:center;color:rgba(255,255,255,.5);font-size:11px;line-height:1.5;margin-top:12px}
 </style>
 <style>
 @keyframes tgPopupIn{0%{opacity:0;transform:translateY(28px) scale(.94);filter:blur(8px)}70%{opacity:1;transform:translateY(-3px) scale(1.01);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1)}}
@@ -1837,13 +1920,27 @@ const DEVICE_STORAGE_KEY = 'hrry_device_id';
 const UNLOCK_STORAGE_KEY = 'hrry_test_unlocks';
 let pendingLockedTest = null;
 
+let runtimeDeviceId = null;
+
 function getDeviceId() {
-    let id = localStorage.getItem(DEVICE_STORAGE_KEY);
-    if (!id) {
-        id = 'web_' + cryptoRandomId();
-        localStorage.setItem(DEVICE_STORAGE_KEY, id);
+    // Keep one stable ID for the whole page session. This is important when
+    // storage is temporarily unavailable (some WebViews/privacy modes).
+    if (runtimeDeviceId) return runtimeDeviceId;
+
+    try {
+        let id = localStorage.getItem(DEVICE_STORAGE_KEY);
+        if (!id) {
+            id = 'web_' + cryptoRandomId();
+            localStorage.setItem(DEVICE_STORAGE_KEY, id);
+        }
+        runtimeDeviceId = String(id);
+        return runtimeDeviceId;
+    } catch (e) {
+        // Fallback: even if localStorage is blocked, do NOT generate a new
+        // device ID on every API call.
+        runtimeDeviceId = 'web_' + cryptoRandomId();
+        return runtimeDeviceId;
     }
-    return id;
 }
 
 function cryptoRandomId() {
@@ -1986,79 +2083,147 @@ function contactAdminWhatsApp() {
 
 
 const FREE_KEY_BACKEND = 'https://hrry-test-backend.onrender.com';
+const FREE_KEY_DEVICE_STORAGE = 'hrry_free_key_device_v2';
+
+function getFreeKeyDeviceId() {
+    // Use the exact same device ID for /start and /redeem.
+    // This prevents a false "device not allowed" error if storage behaves
+    // differently between calls.
+    let id = getDeviceId();
+    try {
+        const saved = localStorage.getItem(FREE_KEY_DEVICE_STORAGE);
+        if (saved) id = saved;
+        else localStorage.setItem(FREE_KEY_DEVICE_STORAGE, id);
+    } catch (e) {}
+    return String(id);
+}
+
+async function fetchFreeKeyApi(path, options = {}) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20000);
+
+    try {
+        const response = await fetch(`${FREE_KEY_BACKEND}${path}`, {
+            ...options,
+            signal: controller.signal,
+            cache: 'no-store'
+        });
+
+        const data = await response.json().catch(() => ({}));
+        return { response, data };
+    } catch (error) {
+        if (error && error.name === 'AbortError') {
+            throw new Error('Free Key server ने समय पर जवाब नहीं दिया।');
+        }
+        throw new Error('Free Key server से connection नहीं हो पाया।');
+    } finally {
+        clearTimeout(timeout);
+    }
+}
 
 async function startFreeKeyFlow() {
     setKeyStatus('Free Key तैयार हो रही है…', 'success');
 
     try {
-        const response = await fetch(`${FREE_KEY_BACKEND}/api/free/start`, {
+        const deviceId = getFreeKeyDeviceId();
+
+        const { response, data } = await fetchFreeKeyApi('/api/free/start', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ deviceId: getDeviceId() })
+            body: JSON.stringify({ deviceId })
         });
 
-        const data = await response.json().catch(() => ({}));
-
         if (!response.ok || !data.ok || !data.shrinkmeUrl) {
-            throw new Error(data.error || 'Free Key link नहीं बन पाया।');
+            throw new Error(data.error || `Free Key server error (${response.status})`);
         }
+
+        // Remember which device started this key request.
+        try {
+            localStorage.setItem(FREE_KEY_DEVICE_STORAGE, deviceId);
+            if (data.requestId) {
+                localStorage.setItem('hrry_free_key_request_id', String(data.requestId));
+            }
+        } catch (e) {}
 
         setKeyStatus('✅ नया Free Key link तैयार है। इसे खोलकर key प्राप्त करें।', 'success');
         window.open(data.shrinkmeUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
         console.error('Free key start error:', error);
-        setKeyStatus('❌ Free Key server से connection नहीं हो पाया। थोड़ी देर बाद फिर कोशिश करें।', 'error');
+        setKeyStatus(`❌ ${error.message || 'Free Key server से connection नहीं हो पाया।'}`, 'error');
     }
 }
 
 async function redeemFreeKey(key) {
+    const cleanKey = String(key || '').trim().toUpperCase();
+    if (!cleanKey) throw new Error('कृपया Free Key डालें।');
+
     setKeyStatus('12-hour Free Key verify हो रही है…', 'success');
 
-    const response = await fetch(`${FREE_KEY_BACKEND}/api/free/redeem`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            key,
-            deviceId: getDeviceId()
-        })
-    });
+    const deviceId = getFreeKeyDeviceId();
 
-    const data = await response.json().catch(() => ({}));
+    try {
+        const { response, data } = await fetchFreeKeyApi('/api/free/redeem', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                key: cleanKey,
+                deviceId: deviceId
+            })
+        });
 
-    if (!response.ok || !data.ok) {
-        throw new Error(data.error || 'Free Key verify नहीं हुई।');
+        if (!response.ok || !data.ok) {
+            // Show the exact server reason instead of replacing it with a
+            // generic "verify failed" message.
+            throw new Error(data.error || `Free Key verify failed (${response.status})`);
+        }
+
+        const expiresAt = Number(data.expiresAt || 0);
+        if (!expiresAt || expiresAt <= Date.now()) {
+            throw new Error('Server ने expired Free Key response दिया।');
+        }
+
+        // Save the SAME device ID that was sent to the server.
+        saveFreeAccessLocal({
+            key: data.key || cleanKey,
+            expiresAt: expiresAt,
+            deviceId: deviceId
+        });
+
+        try {
+            localStorage.setItem(FREE_KEY_DEVICE_STORAGE, deviceId);
+        } catch (e) {}
+
+        return data;
+    } catch (error) {
+        console.error('Free key redeem error:', error);
+        throw error;
     }
-
-    saveFreeAccessLocal({
-        key: data.key || key,
-        expiresAt: Number(data.expiresAt),
-        deviceId: getDeviceId()
-    });
-
-    return data;
 }
 
 async function checkFreeAccessFromServer() {
     try {
-        const response = await fetch(`${FREE_KEY_BACKEND}/api/free/status`, {
+        const deviceId = getFreeKeyDeviceId();
+        const { response, data } = await fetchFreeKeyApi('/api/free/status', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ deviceId: getDeviceId() }),
-            cache: 'no-store'
+            body: JSON.stringify({ deviceId })
         });
-
-        const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.ok && data.active) {
             saveFreeAccessLocal({
                 key: data.key,
                 expiresAt: Number(data.expiresAt),
-                deviceId: getDeviceId()
+                deviceId: deviceId
             });
             return true;
         }
 
-        clearFreeAccessLocal();
+        // Do not erase a still-valid local access just because a temporary
+        // status request failed. Only clear it when the server explicitly
+        // says that access is inactive/expired.
+        if (response.ok && data.ok === false && data.active === false) {
+            clearFreeAccessLocal();
+        }
         return false;
     } catch (error) {
         console.warn('Free access server check failed:', error);
@@ -3288,8 +3453,8 @@ async function loadTests(
             document.createElement('div');
 
 
-        const unlocked = true;
-        const locked = false;
+        const unlocked = isTestUnlocked(test.id);
+        const locked = !unlocked;
 
         card.className =
             `selection-card ${
@@ -3297,7 +3462,11 @@ async function loadTests(
             } ${locked ? 'locked-test-card' : ''}`;
 
         card.onclick = () => {
-            prepareTest(test.id, test.name || 'Test');
+            if (locked) {
+                openKeyModal(test.id, test.name || 'Test');
+            } else {
+                prepareTest(test.id, test.name || 'Test');
+            }
         };
 
 
@@ -3327,7 +3496,11 @@ async function loadTests(
                         </div>
 
                         <div class="selection-subtitle">
-                            ${isCompleted ? 'Completed' : 'Ready to start'}
+                            ${
+                                locked
+                                    ? '🔒 Key required • ₹20'
+                                    : (isCompleted ? 'Completed' : 'Ready to start')
+                            }
                         </div>
 
                     </div>
@@ -3335,9 +3508,11 @@ async function loadTests(
                 </div>
 
                 ${
-                    isCompleted
-                        ? '<span class="completed-badge">✓ COMPLETED</span>'
-                        : '<span style="color:var(--cyan);font-weight:800;font-size:13px;">START ▶</span>'
+                    locked
+                        ? '<span class="lock-badge">🔒 LOCKED</span>'
+                        : (isCompleted
+                            ? '<span class="completed-badge">✓ COMPLETED</span>'
+                            : '<span style="color:var(--cyan);font-weight:800;font-size:13px;">START ▶</span>')
                 }
 
             </div>
@@ -3383,7 +3558,22 @@ async function prepareTest(
     testId,
     testName
 ) {
-activeTestId =
+
+    // Paid/permanent access stays exactly as before.
+    // Free access is re-checked on the backend before opening a test.
+    if (!hasFullTestSeriesAccess() && hasActiveFreeAccess()) {
+        const serverFreeAccess = await ensureFreeAccessFromServer();
+        if (!serverFreeAccess) {
+            clearFreeAccessLocal();
+        }
+    }
+
+    if (!isTestUnlocked(testId)) {
+        openKeyModal(testId, testName || 'Test');
+        return;
+    }
+
+    activeTestId =
         testId;
 
     activeTestName =
